@@ -18,34 +18,27 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "./splunk-7.2.0-8c86330ac18-Linux-x86_64.tgz",
-      "destination": "/tmp/splunk.tgz"
+      "source": "./splunk-7.2.0-8c86330ac18-linux-2.6-x86_64.rpm",
+      "destination": "/tmp/splunk.rpm"
     },
     {
       "type": "shell",
       "inline": [
-        "sudo useradd -M splunk",
-        "sudo usermod -L splunk",
-
-        "sudo mkdir /opt/splunk",
-        "sudo chown splunk /opt/splunk",
-        
-        "su splunk",
-        "tar xvzf /tmp/splunk.tgz -C /opt",
-        "rm -f /tmp/splunk.tgz"
+        "sudo rpm -i /tmp/splunk.rpm",
+        "rm -f /tmp/splunk.rpm"
       ]
     },
     {
       "type": "file",
       "source": "./user-seed.conf",
-      "destination": "/opt/splunk/etc/system/local/user-seed.conf"
+      "destination": "/tmp/user-seed.conf"
     },
     {
       "type": "shell",
       "inline" : [
-        "su splunk",
-        "/opt/splunk/bin/splunk start --no-prompt",
-        "/opt/splunk/bin/splunk stop"
+        "sudo mv /tmp/user-seed.conf /opt/splunk/etc/system/local/user-seed.conf",
+        "sudo /opt/splunk/bin/splunk start --no-prompt",
+        "sudo /opt/splunk/bin/splunk stop"
       ]
     }
   ]
