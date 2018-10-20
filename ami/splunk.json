@@ -24,6 +24,13 @@
     {
       "type": "shell",
       "inline": [
+        "sudo useradd -M splunk",
+        "sudo usermod -L splunk",
+
+        "sudo mkdir /opt/splunk",
+        "sudo chown splunk /opt/splunk",
+        
+        "su splunk",
         "tar xvzf /tmp/splunk.tgz -C /opt",
         "rm -f /tmp/splunk.tgz"
       ]
@@ -36,6 +43,7 @@
     {
       "type": "shell",
       "inline" : [
+        "su splunk",
         "/opt/splunk/bin/splunk start --no-prompt",
         "/opt/splunk/bin/splunk stop"
       ]
