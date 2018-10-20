@@ -1,0 +1,44 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "us-east-1",
+      "source_ami": "ami-0c7d8678e345b414c",
+      "instance_type": "t2.micro",
+      "ssh_username": "ec2-user",
+      "ami_name": "splunk {{timestamp}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "./splunk-7.2.0-8c86330ac18-Linux-x86_64.tgz",
+      "destination": "/tmp/splunk.tgz"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "tar xvzf /tmp/splunk.tgz -C /opt",
+        "rm -f /tmp/splunk.tgz"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "./user-seed.conf",
+      "destination": "/opt/splunk/etc/system/local/user-seed.conf"
+    },
+    {
+      "type": "shell",
+      "inline" : [
+        "/opt/splunk/bin/splunk start --no-prompt",
+        "/opt/splunk/bin/splunk stop"
+      ]
+    }
+  ]
+}
