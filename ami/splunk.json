@@ -37,7 +37,7 @@
       "type": "shell",
       "inline" : [
         "sudo mv /tmp/user-seed.conf /opt/splunk/etc/system/local/user-seed.conf",
-        "sudo /opt/splunk/bin/splunk start --no-prompt",
+        "sudo /opt/splunk/bin/splunk start --accept-license --no-prompt",
         "sudo /opt/splunk/bin/splunk stop"
       ]
     }
